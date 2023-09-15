@@ -15,6 +15,8 @@ function interpret(node){
                     return `${lhs}+${rhs}`;
                 case "Sub":
                     return `${lhs}-${rhs}`;
+                case "Eq":
+                    return `${lhs}==${rhs}`;
                 case "Lt":
                     return `${lhs}<${rhs}`;
                 case "Gt":
@@ -38,13 +40,30 @@ function interpret(node){
             }`
             break;
         case "Function":
-            jscode += `function(${node.parameters[0].text}){${interpret(node.value)}}`
+            jscode += `function(`
+            for (let i = 0; i < node.parameters.length; i++) {
+                if(i>=1){
+                    jscode += `,${node.parameters[i].text}`
+                } else{
+                    jscode += `${node.parameters[i].text}`
+                }
+            }
+            jscode += `){${interpret(node.value)}}`
             break;
         case "Call":
             if(node.callee.text == "fib"){
                 jscode += `fibonacciCalc(${interpret(node.arguments[0])})`
             } else{
-                jscode += `${interpret(node.callee)}(${interpret(node.arguments[0])})`
+                jscode += `${interpret(node.callee)}(`
+                for (let i = 0; i < node.arguments.length; i++) {
+                    if(i>=1){
+                        jscode += `,${interpret(node.arguments[i])}`
+                    }
+                    else{
+                        jscode += `${interpret(node.arguments[i])}`
+                    }
+                }
+                jscode += `)`
             }
             break;
         case "Var":
