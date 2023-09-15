@@ -1,3 +1,6 @@
-let n1 = 10;
-let n2 = 20;
-print(teste+ opa)
+let condition = 10;
+if(condition < 20){
+    print(true)
+}else{
+    print(false)
+}
