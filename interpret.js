@@ -1,6 +1,5 @@
 function interpret(node){
     var jscode = "";
-    //console.log(node)
     switch(node.kind){
         case "Print":
             jscode += `console.log(${interpret(node.value)});`;
@@ -42,7 +41,11 @@ function interpret(node){
             jscode += `function(${node.parameters[0].text}){${interpret(node.value)}}`
             break;
         case "Call":
-            jscode += `${interpret(node.callee)}(${interpret(node.arguments[0])})`
+            if(node.callee.text == "fib"){
+                jscode += `fibonacciCalc(${interpret(node.arguments[0])})`
+            } else{
+                jscode += `${interpret(node.callee)}(${interpret(node.arguments[0])})`
+            }
             break;
         case "Var":
             return node.text;

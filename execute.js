@@ -1,5 +1,6 @@
 const json = require("./var/rinha/source.rinha.json");
 const interpret = require("./interpret.js");
+const fibonacciCalc = require("./utils/fibonacciCalc")
 
 const start = performance.now();
 
