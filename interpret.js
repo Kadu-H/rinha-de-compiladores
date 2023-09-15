@@ -24,15 +24,25 @@ function interpret(node){
                     return `${lhs}<=${rhs}`;
                 case "Gte":
                     return `${lhs}>=${rhs}`;
+                case "And":
+                    return `${lhs}&&${rhs}`;
+                case "Or":
+                    return `${lhs}||${rhs}`;
                 default:
                     break;
             }
         case "If":
             jscode += `if(${interpret(node.condition)}){
-                ${interpret(node.then)}
+                return ${interpret(node.then)}
             } else{
-                ${interpret(node.otherwise)}
+                return ${interpret(node.otherwise)}
             }`
+            break;
+        case "Function":
+            jscode += `function(${node.parameters[0].text}){${interpret(node.value)}}`
+            break;
+        case "Call":
+            jscode += `${interpret(node.callee)}(${interpret(node.arguments[0])})`
             break;
         case "Var":
             return node.text;
